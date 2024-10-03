@@ -1,19 +1,19 @@
-package med.voll.api.medico;
+package med.voll.api.domain.paciente;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.endereco.Endereco;
+import med.voll.api.domain.endereco.Endereco;
 
-@Table(name = "medicos")
-@Entity(name = "Medico")
+@Table(name = "pacientes")
+@Entity(name = "Paciente")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Medico {
+public class Paciente {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,27 +22,23 @@ public class Medico {
 
     private String telefone;
 
-    private String crm;
-
-    @Enumerated(EnumType.STRING)
-    private Especialidade especialidade;
+    private String cpf;
 
     @Embedded
     private Endereco endereco;
 
     private Boolean ativo;
 
-    public Medico(DadosCadastroMedico dados) {
+    public Paciente(DadosCadastroPaciente dados) {
         this.ativo = true;
         this.nome = dados.nome();
         this.email = dados.email();
         this.telefone = dados.telefone();
-        this.crm = dados.crm();
-        this.especialidade = dados.especialidade();
+        this.cpf = dados.cpf();
         this.endereco = new Endereco(dados.endereco());
     }
 
-    public void atualizarInformacoes(DadosAtualizacaoMedico dados) {
+    public void atualizarInformacoes(DadosAtualizacaoPaciente dados) {
         if (dados.nome() != null) {
             this.nome = dados.nome();
         }
@@ -59,7 +55,7 @@ public class Medico {
         this.ativo = false;
     }
     
-    // Getters Setters porque não esta funcionando o lombok
+    // Getters Setters porque o lombok não esta funcionando
 
 	public Long getId() {
 		return id;
@@ -93,20 +89,12 @@ public class Medico {
 		this.telefone = telefone;
 	}
 
-	public String getCrm() {
-		return crm;
+	public String getCpf() {
+		return cpf;
 	}
 
-	public void setCrm(String crm) {
-		this.crm = crm;
-	}
-
-	public Especialidade getEspecialidade() {
-		return especialidade;
-	}
-
-	public void setEspecialidade(Especialidade especialidade) {
-		this.especialidade = especialidade;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public Endereco getEndereco() {
@@ -124,6 +112,5 @@ public class Medico {
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-    
     
 }
